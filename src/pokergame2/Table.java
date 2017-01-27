@@ -21,24 +21,40 @@ public class Table {
         return num+"枚ベットしました。　場のチップ = "+chip;
     }
     
-    public String Judge(List<Cards> hand){
+    public int Judge(List<Cards> hand){
         //equal
         //ワンペア：同ランク2枚1組が一つ
         //ツーペア：同ランク2枚1組が二つ
         pflag = false;
         if (TorF(hand)=="four")
-            return "FourCard";
+            return 6;
         if (Flash(hand)==true)
-            return "Flash";
+            return 5;
         if (Straight(hand)==true)
-            return "Straight";
+            return 4;
         if (TorF(hand)=="three")
-            return "ThreeCard";
+            return 3;
         if (Pare(Pare(hand))!=null)
-            return "TwoPare";
+            return 2;
         if (pflag==true)
-            return "OnePare";
-        return "";
+            return 1;
+        return 0;
+    }public String Judge(Player p1,Player p2){
+        int p1point = Judge(p1.getHands());
+        int p2point = Judge(p2.getHands());
+            if (p1point > p2point) {
+                p1.setCoins(chip);
+                chip = 0;
+                return p1.getName();
+            }
+            else if (p2point > p1point) {
+                p2.setCoins(chip);
+                chip = 0;
+                return p2.getName();
+            }else {
+                chip = 0;
+                return "なし";
+            }
     }
     private boolean Flash(List<Cards> hand){
         for (int i = 0; i < hand.size(); i++) {

@@ -18,7 +18,7 @@ public class Player {
         this.coins = coins;
         hand = new ArrayList<>();
     }
-    public void setCoins(int num){this.coins = num;}
+    public void setCoins(int num){this.coins += num;}
     
     public String getName(){return name;}
     public int getCoins(){return coins;}

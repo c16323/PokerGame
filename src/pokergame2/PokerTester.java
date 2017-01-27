@@ -14,12 +14,13 @@ import java.util.Scanner;
 public class PokerTester {
     public static void main(String[] args){
         Scanner stdIn = new Scanner(System.in);
-        List<Cards> cards = Cards.newDeck();
+        
         
         Player akiyama = new HumanPlayer("human",100);
         ComputerPlayer mac = new ComputerPlayer("mac",100);
         Table table = new Table();
         
+        List<Cards> cards = Cards.newDeck();
         for (int i = 0; i < 5; i++) {
             akiyama.drawIn(cards);
             mac.drawIn(cards);
@@ -57,10 +58,14 @@ public class PokerTester {
         }
         System.out.println(akiyama.getName()+"の手札");
         hand.forEach(System.out::println);
-        System.out.println(table.Judge(hand));
         
         System.out.println(mac.getName()+"の手札");
         chand.forEach(System.out::println);
-        System.out.println(table.Judge(chand));
+        
+        System.out.println("勝者："+table.Judge(akiyama, mac));
+        
+        System.out.println(akiyama.getName()+"のコイン："+akiyama.getCoins());
+        System.out.println(mac.getName()+"のコイン："+mac.getCoins());
+        
     }
 }
