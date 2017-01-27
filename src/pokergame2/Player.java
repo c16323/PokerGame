@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Player {
     private String name;
-    private int coins = 0;
+    int coins = 0;
     private List<Cards> hand;
     
     public Player(String name,int coins){
@@ -24,13 +24,15 @@ public class Player {
     public int getCoins(){return coins;}
     public List<Cards> getHands(){return hand;}
     
-    public void bet(int num){
+    public int bet(int num){
         coins -= num;
+        return num;
     }
     Cards drawOut(int index){
         return hand.remove(index);
     }
     void drawIn(List<Cards> deck){
         hand.add(deck.remove(0));
+        
     }
 }

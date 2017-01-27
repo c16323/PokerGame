@@ -16,17 +16,35 @@ public class PokerTester {
         Scanner stdIn = new Scanner(System.in);
         List<Cards> cards = Cards.newDeck();
         
-        Player akiyama = new HumanPlayer("Akiyama",100);
+        Player akiyama = new HumanPlayer("human",100);
+        ComputerPlayer mac = new ComputerPlayer("mac",100);
+        Table table = new Table();
         
         for (int i = 0; i < 5; i++) {
             akiyama.drawIn(cards);
+            mac.drawIn(cards);
         }
         
         List<Cards> hand = akiyama.getHands();
+        List<Cards> chand=mac.getHands();
+        
+        int chip=0;
+        hand.forEach(System.out::println);
+        
+        System.out.println(table.fieldChip(mac.bet(0)));
+        System.out.print("ベット枚数指定：");
+        do{
+            chip = stdIn.nextInt();
+        }while(chip>akiyama.getCoins() || 0>chip);
+        
+        akiyama.bet(chip);
+        System.out.println(table.fieldChip(chip));
+        
         
         do{
-            hand.forEach(System.out::println);
+            
             System.out.println("1~"+(hand.size())+"で捨てる、範囲外でカードを引く");
+            hand.forEach(System.out::println);
             int i = stdIn.nextInt();
             if(i<1 || i>hand.size())
                 break;
@@ -37,7 +55,12 @@ public class PokerTester {
         while(hand.size()<5){
             akiyama.drawIn(cards);
         }
+        System.out.println(akiyama.getName()+"の手札");
         hand.forEach(System.out::println);
+        System.out.println(table.Judge(hand));
         
+        System.out.println(mac.getName()+"の手札");
+        chand.forEach(System.out::println);
+        System.out.println(table.Judge(chand));
     }
 }
