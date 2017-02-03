@@ -32,7 +32,7 @@ public class PokerTester {
         int chip=0;
         hand.forEach(System.out::println);
         
-        System.out.println(table.fieldChip(mac.bet(0)));
+        System.out.println("mac:"+table.fieldChip(mac.bet(0)));
         System.out.print("ベット枚数指定：");
         do{
             chip = stdIn.nextInt();
@@ -58,9 +58,11 @@ public class PokerTester {
         }
         System.out.println(akiyama.getName()+"の手札");
         hand.forEach(System.out::println);
+        System.out.println(table.handJudge(akiyama.getHands()));
         
         System.out.println(mac.getName()+"の手札");
         chand.forEach(System.out::println);
+        System.out.println(table.handJudge(mac.getHands()));
         
         System.out.println("勝者："+table.Judge(akiyama, mac));
         

@@ -11,8 +11,6 @@ import java.util.List;
  * @author c16323
  */
 public class Table {
-    //コインと役の管理
-    private boolean pflag;
     private int chip=0;
     public Table(){}
     
@@ -20,12 +18,18 @@ public class Table {
         chip += num;
         return num+"枚ベットしました。　場のチップ = "+chip;
     }
-    
+    public String handJudge(List<Cards> hand){
+        switch(Judge(hand)){
+            case 6:return "FourCard";
+            case 5:return "Flash";
+            case 4:return "Straight";
+            case 3:return "ThreeCard";
+            case 2:return "TwoPair";
+            case 1:return "OnePair";
+            default:return "NoPair";
+        }
+    }
     public int Judge(List<Cards> hand){
-        //equal
-        //ワンペア：同ランク2枚1組が一つ
-        //ツーペア：同ランク2枚1組が二つ
-        pflag = false;
         if (TorF(hand)=="four")
             return 6;
         if (Flash(hand)==true)
@@ -34,9 +38,10 @@ public class Table {
             return 4;
         if (TorF(hand)=="three")
             return 3;
-        if (Pare(Pare(hand))!=null)
+        String result = Pair(hand);
+        if (result == "Two")
             return 2;
-        if (pflag==true)
+        if (result == "One")
             return 1;
         return 0;
     }public String Judge(Player p1,Player p2){
@@ -95,19 +100,31 @@ public class Table {
         }
         return "";
     }
-    private List<Cards> Pare(List<Cards> hand){
-        if (hand==null)
-            return null;
+    private String Pair(List<Cards> hand){
+        Cards[] stock = new Cards[4];
+        int rank=0;
         for (int i = 0; i < hand.size(); i++) {
             for (int j = 0; j < i; j++) {
                 if (hand.get(i).getRank() == hand.get(j).getRank()) {
-                    hand.remove(hand.get(i));
-                    hand.remove(hand.get(j));
-                    pflag=true;
-                    return hand;
+                    stock[0] = (hand.get(i));
+                    stock[1] = (hand.get(j));
+                    rank = hand.get(i).getRank();
                 }
             }
         }
-        return null;
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (hand.get(i).getRank() == hand.get(j).getRank() 
+                        && hand.get(i).getRank()!=rank) {
+                    stock[2] = (hand.get(i));
+                    stock[3] = (hand.get(j));
+                    return "Two";
+                }
+            }
+        }
+        if (rank!=0)
+            return "One";
+        else
+            return "";
     }
 }
